@@ -10,6 +10,6 @@ namespace BookingApp.Classes
     {
         public int Id { get; set; }
 
-        public Status Status { get; set; }
+        public List<Booking> Bookings { get; set; }
     }
 }

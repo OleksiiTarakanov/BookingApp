@@ -4,14 +4,16 @@ using BookingApp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookingApp.Migrations
 {
     [DbContext(typeof(BookingAppDbContext))]
-    partial class BookingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211104103123_AddedUserAndBookingClass")]
+    partial class AddedUserAndBookingClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,15 +37,10 @@ namespace BookingApp.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("TablePlaceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
-
-                    b.HasIndex("TablePlaceId");
 
                     b.HasIndex("UserId");
 
@@ -69,9 +66,6 @@ namespace BookingApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -88,26 +82,13 @@ namespace BookingApp.Migrations
 
             modelBuilder.Entity("BookingApp.Classes.Booking", b =>
                 {
-                    b.HasOne("BookingApp.Classes.TablePlace", "TablePlace")
-                        .WithMany("Bookings")
-                        .HasForeignKey("TablePlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BookingApp.Classes.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TablePlace");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookingApp.Classes.TablePlace", b =>
-                {
-                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("BookingApp.Classes.User", b =>

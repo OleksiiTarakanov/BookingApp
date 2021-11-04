@@ -1,3 +1,6 @@
+using AutoMapper;
+using BookingApp.Classes;
+using BookingApp.DTOs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

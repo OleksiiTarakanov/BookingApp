@@ -14,32 +14,23 @@ namespace BookingApp.Controllers
     [ApiController]
     public class TableBookingController : ControllerBase
     {
-        private ITableBookingService _tableBookingService;
-        private readonly BookingAppDbContext _context;
-        public TableBookingController(BookingAppDbContext context, ITableBookingService tableBookingService)
+        private IBookingService _bookingService;
+        public TableBookingController(IBookingService bookingService)
         {
-            _context = context;
-            _tableBookingService = tableBookingService;
+            _bookingService = bookingService;
         }
 
-        [HttpGet("tablePlases")]
-        public async Task<IActionResult> GetAllTablePlaces()
+        [HttpGet("Bookings")]
+        public async Task<IActionResult> GetAllBookings()
         {
-            var TablePlacesList =  await _tableBookingService.GetAllTablePlaces();
-            return Ok(TablePlacesList);
+            var result = await _bookingService.GetAllBookings();
+            return Ok(result);
         }
 
-        [HttpPost("tablePlace")]
-        public async Task<IActionResult> AddTablePlace([FromForm] TablePlace place)
+        [HttpPost("CreateBooking")]
+        public async Task<IActionResult> CreateBooking([FromBody] Booking booking)
         {
-            var res = await _tableBookingService.AddTablePlace(place);
-            return Ok(res);
-        }
-
-        [HttpPut("tablePlace/{tablePlaceId}/status")]
-        public async Task<IActionResult> UpdateTablePlaceStatus([FromRoute] int tablePlaceId, Status neededStatus)
-        {
-            var result = await _tableBookingService.UpdateTablePlaceStatus(tablePlaceId, neededStatus);
+            var result = await _bookingService.CreateBooking(booking);
             if (result.IsSuccess == false)
             {
                 return BadRequest(result.ErrorMessage);
@@ -47,6 +38,5 @@ namespace BookingApp.Controllers
 
             return Ok();
         }
-
     }
 }

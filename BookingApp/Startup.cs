@@ -1,3 +1,6 @@
+using AutoMapper;
+using BookingApp.Classes;
+using BookingApp.DTOs;
 using BookingApp.Interfaces;
 using BookingApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -33,12 +36,22 @@ namespace BookingApp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BookingAppCs"));
             });
-            services.AddTransient<ITableBookingService, TableBookingService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<ITableService, TableService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookingApp", Version = "v1" });
             });
+
+            var config = new MapperConfiguration(c =>
+            {
+                c.AddProfile(new AutoMappingProfile());
+            });
+
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
