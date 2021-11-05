@@ -27,19 +27,6 @@ namespace BookingApp.Controllers
             return Ok(users);
         }
 
-
-        public class UserModel
-        {
-            public Role UserRole { get; private set; }
-
-            public string Email { get; set; }
-
-            public string FirstName { get; set; }
-
-            public string LastName { get; set; }
-        }
-
-
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {

@@ -1,4 +1,5 @@
 ﻿using BookingApp.Classes;
+using BookingApp.DTOs;
 using BookingApp.Enums;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,7 @@ namespace BookingApp.Interfaces
 {
     public interface ITableService
     {
-        public Task<List<TablePlace>> GetAllTablePlaces();
+        public Task<List<TablePlaceDto>> GetAllTablePlaces();
         public Task<TablePlace> AddTablePlace(TablePlace place);
-        //public Task<Response> UpdateTablePlaceStatus(int id, Status neededStatus);
     }
 }

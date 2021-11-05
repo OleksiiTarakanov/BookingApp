@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Classes
 {
-    public class User
+    public class UserModel
     {
-        public int UserId { get; private set; }
-
-        public Role UserRole { get; set; }
+        public Role UserRole { get; private set; }
 
         public string Email { get; set; }
-
-        public string Password { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; }
+        public string Password { get; set; }
     }
 }

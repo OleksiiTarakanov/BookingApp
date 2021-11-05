@@ -1,6 +1,7 @@
 ﻿using BookingApp.Classes;
 using BookingApp.Enums;
 using BookingApp.Interfaces;
+using BookingApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,7 +29,7 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost("CreateBooking")]
-        public async Task<IActionResult> CreateBooking([FromBody] Booking booking)
+        public async Task<IActionResult> CreateBooking([FromBody] BookingModel booking)
         {
             var result = await _bookingService.CreateBooking(booking);
             if (result.IsSuccess == false)

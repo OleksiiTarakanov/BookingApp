@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BookingApp
@@ -40,6 +41,8 @@ namespace BookingApp
             services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<ITableService, TableService>();
             services.AddControllers();
+            //services.AddControllers().AddJsonOptions(x =>
+            //       x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookingApp", Version = "v1" });

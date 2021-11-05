@@ -22,7 +22,7 @@ namespace BookingApp.Services
         }
         public async Task<List<UserDto>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Include(a => a.Bookings).ToListAsync();
             return _mapper.Map<List<UserDto>>(users);
         }
 
@@ -30,10 +30,11 @@ namespace BookingApp.Services
         {
             var user = new User
             {
+                UserRole = Enums.Role.User,
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
                 Email = userModel.Email,
-                UserRole = userModel.UserRole
+                Password = userModel.Password
             };
 
             _context.Users.Add(user);

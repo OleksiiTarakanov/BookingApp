@@ -1,4 +1,5 @@
 ﻿using BookingApp.Classes;
+using BookingApp.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

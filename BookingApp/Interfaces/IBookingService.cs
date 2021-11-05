@@ -1,4 +1,6 @@
 ﻿using BookingApp.Classes;
+using BookingApp.DTOs;
+using BookingApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ namespace BookingApp.Interfaces
 {
     public interface IBookingService
     {
-        public Task<Response> CreateBooking(Booking booking);
-        public Task<List<Booking>> GetAllBookings();
+        public Task<Response> CreateBooking(BookingModel booking);
+        public Task<List<BookingDto>> GetAllBookings();
     }
 }

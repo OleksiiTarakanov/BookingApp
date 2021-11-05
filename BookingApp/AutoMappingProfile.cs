@@ -15,6 +15,11 @@ namespace BookingApp
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
 
+            CreateMap<Booking, BookingDto>();
+            CreateMap<BookingDto, Booking>();
+
+            CreateMap<TablePlace, TablePlaceDto>();
+            CreateMap<TablePlaceDto, TablePlace>();
         }
     }
 }

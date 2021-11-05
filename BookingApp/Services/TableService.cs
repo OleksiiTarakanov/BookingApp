@@ -1,4 +1,6 @@
-﻿using BookingApp.Classes;
+﻿using AutoMapper;
+using BookingApp.Classes;
+using BookingApp.DTOs;
 using BookingApp.Enums;
 using BookingApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +14,16 @@ namespace BookingApp.Services
     public class TableService : ITableService
     {
         private readonly BookingAppDbContext _context;
-        public TableService(BookingAppDbContext context)
+        private readonly IMapper _mapper;
+        public TableService(BookingAppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<List<TablePlace>> GetAllTablePlaces()
+        public async Task<List<TablePlaceDto>> GetAllTablePlaces()
         {
-            var result = await _context.Tables.ToListAsync();
-            return result;
+            var result = await _context.Tables.Include(a => a.Bookings).ToListAsync();
+            return _mapper.Map<List<TablePlaceDto>>(result);
         }
 
         public async Task<TablePlace> AddTablePlace(TablePlace place)
@@ -29,43 +33,5 @@ namespace BookingApp.Services
 
             return place;
         }
-
-        //public async Task<Response> UpdateTablePlaceStatus(int id, Status neededStatus)
-        //{
-        //    var tablePlace = await _context.Tables.Where(tablePlace => tablePlace.Id == id).SingleOrDefaultAsync();
-        //    if (tablePlace.Status == Status.BookedPermanently)
-        //    {
-        //        return new Response
-        //        {
-        //            IsSuccess = false,
-        //            ErrorMessage = "Selected place is booked permanently"
-        //        };
-        //    }
-        //    else if (neededStatus == tablePlace.Status)
-        //    {
-        //        return new Response
-        //        {
-        //            IsSuccess = false,
-        //            ErrorMessage = "Selected place is booked for selected day or part of day"
-        //        };
-        //    }
-        //    else if (neededStatus == Status.BookedFullDay && (tablePlace.Status == Status.BookedFirstPartOfDay || tablePlace.Status == Status.BookedSecondPartOfDay))
-        //    {
-        //        return new Response
-        //        {
-        //            IsSuccess = false,
-        //            ErrorMessage = "Selected place is booked for part of day"
-        //        };
-        //    } else
-        //    {
-        //        tablePlace.Status = neededStatus;
-        //        await _context.SaveChangesAsync();
-        //        return new Response
-        //        {
-        //            IsSuccess = true
-        //        };
-                
-        //    }
-        //}
     }
 }
