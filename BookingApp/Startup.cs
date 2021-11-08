@@ -2,7 +2,9 @@ using AutoMapper;
 using BookingApp.Classes;
 using BookingApp.DTOs;
 using BookingApp.Interfaces;
+using BookingApp.Repositories;
 using BookingApp.Services;
+using BookingApp.Unit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +39,9 @@ namespace BookingApp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BookingAppCs"));
             });
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IBookingRepository, BookingRepository>();
+            services.AddTransient<ITablePlacesRepository, TablePlacesRepository>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<ITableService, TableService>();

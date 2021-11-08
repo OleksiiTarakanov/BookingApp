@@ -12,5 +12,7 @@ namespace BookingApp.Interfaces
     {
         public Task<Response> CreateBooking(BookingModel booking);
         public Task<List<BookingDto>> GetAllBookings();
+        public Task<Response> DeleteBooking(int id);
+        public Task<Response> UpdateBooking(BookingModel booking);
     }
 }

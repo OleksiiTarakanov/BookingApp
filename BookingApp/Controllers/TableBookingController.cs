@@ -39,5 +39,21 @@ namespace BookingApp.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBooking([FromRoute] int id)
+        {
+            var result = await _bookingService.DeleteBooking(id);
+            return Ok(result.ErrorMessage);
+        }
+
+
+        [HttpPut("UpdateBooking/{bookingId}")]
+
+        public async Task<IActionResult> UpdateBooking([FromBody] BookingModel booking, [FromRoute] int bookingId)
+        {
+            var result = await _bookingService.UpdateBooking(booking);
+            return Ok(result.ErrorMessage);
+        }
     }
 }

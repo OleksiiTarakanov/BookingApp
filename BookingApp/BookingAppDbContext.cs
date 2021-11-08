@@ -15,9 +15,7 @@ namespace BookingApp
         public DbSet<Booking> Bookings { get; set; }
 
         public BookingAppDbContext(DbContextOptions<BookingAppDbContext> options) : base(options)
-        {
-
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
