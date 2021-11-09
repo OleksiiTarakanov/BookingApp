@@ -1,12 +1,7 @@
-﻿using BookingApp.Classes;
-using BookingApp.Enums;
+﻿using BookingApp.Enums;
 using BookingApp.Interfaces;
 using BookingApp.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookingApp.Controllers
@@ -25,6 +20,13 @@ namespace BookingApp.Controllers
         public async Task<IActionResult> GetAllBookings()
         {
             var result = await _bookingService.GetAllBookings();
+            return Ok(result);
+        }
+
+        [HttpGet("Bookings/{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var result = await _bookingService.GeyById(id);
             return Ok(result);
         }
 
@@ -48,11 +50,17 @@ namespace BookingApp.Controllers
         }
 
 
-        [HttpPut("UpdateBooking/{bookingId}")]
-
-        public async Task<IActionResult> UpdateBooking([FromBody] BookingModel booking, [FromRoute] int bookingId)
+        [HttpPut("UpdateBooking")]
+        public async Task<IActionResult> UpdateBooking([FromBody] BookingModel booking)
         {
             var result = await _bookingService.UpdateBooking(booking);
+            return Ok(result.ErrorMessage);
+        }
+
+        [HttpPut("UpdateBookingStatus/{id}")]
+        public async Task<IActionResult> UpdateBooking([FromRoute] int id, BookingStatus status)
+        {
+            var result = await _bookingService.UpdateBookingStatus(id, status);
             return Ok(result.ErrorMessage);
         }
     }

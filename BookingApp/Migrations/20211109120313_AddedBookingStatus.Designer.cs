@@ -4,14 +4,16 @@ using BookingApp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookingApp.Migrations
 {
     [DbContext(typeof(BookingAppDbContext))]
-    partial class BookingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211109120313_AddedBookingStatus")]
+    partial class AddedBookingStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,10 +37,10 @@ namespace BookingApp.Migrations
                     b.Property<DateTime>("BookingTo")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TablePlaceId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("TablePlaceId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")

@@ -8,11 +8,13 @@ namespace BookingApp.Models
 {
     public class BookingModel
     {
+        public int BookingId { get; set; }
+
         public DateTime BookingFrom { get; set; }
 
         public DateTime BookingTo { get; set; }
 
-        public Status Status { get; set; }
+        public Status Type { get; set; }
 
         public int UserId { get; set; }
 

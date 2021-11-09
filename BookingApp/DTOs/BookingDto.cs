@@ -15,7 +15,9 @@ namespace BookingApp.DTOs
 
         public DateTime BookingTo { get; set; }
 
-        public Status Status { get; set; }
+        public Status Type { get; set; }
+
+        public BookingStatus BookingStatus { get; set; }
 
         public int UserId { get; set; }
 

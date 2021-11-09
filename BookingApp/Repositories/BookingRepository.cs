@@ -33,6 +33,12 @@ namespace BookingApp.Repositories
             return booking;
         }
 
+        public async Task<Booking> GetById(int id)
+        {
+            var bookingFromDb = await _context.Bookings.FirstOrDefaultAsync(b => b.BookingId == id);
+            return bookingFromDb;
+        }
+
         public async Task<Response> DeleteBooking(int id)
         {
             var booking = await _context.Bookings.FirstOrDefaultAsync(i => i.BookingId == id);
@@ -74,7 +80,6 @@ namespace BookingApp.Repositories
                 IsSuccess = true,
                 ErrorMessage = "Success"
             };
-
         }
     }
 }

@@ -11,5 +11,7 @@ namespace BookingApp.Interfaces
         public Task<Response> DeleteBooking(int id);
 
         public Task<Response> UpdateBooking(Booking booking);
+
+        public Task<Booking> GetById(int id);
     }
 }

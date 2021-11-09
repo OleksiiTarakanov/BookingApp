@@ -15,7 +15,9 @@ namespace BookingApp.Classes
 
         public DateTime BookingTo { get; set; }
 
-        public Status Status { get; set; }
+        public Status Type { get; set; }
+
+        public BookingStatus BookingStatus { get; set; }
 
         public User User { get; set; }
 
