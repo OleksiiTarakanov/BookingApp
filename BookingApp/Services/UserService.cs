@@ -15,6 +15,7 @@ namespace BookingApp.Services
     {
         private readonly BookingAppDbContext _context;
         private readonly IMapper _mapper;
+
         public UserService(BookingAppDbContext context, IMapper mapper)
         {
             _context = context;
@@ -30,7 +31,7 @@ namespace BookingApp.Services
         {
             var user = new User
             {
-                UserRole = Enums.Role.User,
+                UserRole = RolesString.User,
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
                 Email = userModel.Email,

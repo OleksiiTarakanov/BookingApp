@@ -1,5 +1,6 @@
 ﻿using BookingApp.Classes;
 using BookingApp.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost("/SignIn")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignIn(string username, string password)
         {
             var result = await _authService.SignIn(username, password);
@@ -27,6 +29,7 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost("/SignUp")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignUp([FromBody] UserModel userModel)
         {
             var result = await _authService.SignUp(userModel);

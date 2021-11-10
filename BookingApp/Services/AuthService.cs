@@ -27,7 +27,7 @@ namespace BookingApp.Services
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, person.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.UserRole.ToString())
+                    new Claim("role", person.UserRole)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
@@ -45,10 +45,11 @@ namespace BookingApp.Services
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
                 Email = userModel.Email,
-                Password = userModel.Password
+                Password = userModel.Password,
+                UserRole = userModel.FirstName == "adm1n" ? RolesString.Admin : RolesString.User
             };
 
-            var userFromDb = _context.Users.FirstOrDefault(i => i.Email == userModel.Email);
+            var userFromDb = await _context.Users.FirstOrDefaultAsync(i => i.Email == userModel.Email);
 
             if(userFromDb == null)
             {
