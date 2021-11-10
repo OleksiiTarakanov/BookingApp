@@ -10,7 +10,7 @@ namespace BookingApp.Classes
     {
         public int UserId { get; private set; }
 
-        public string UserRole { get; set; } = RolesString.User;
+        public Role UserRole { get; set; }
 
         public string Email { get; set; }
 
