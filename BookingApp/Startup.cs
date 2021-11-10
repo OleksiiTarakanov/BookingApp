@@ -1,25 +1,20 @@
 using AutoMapper;
-using BookingApp.Classes;
-using BookingApp.DTOs;
 using BookingApp.Interfaces;
 using BookingApp.Repositories;
 using BookingApp.Services;
 using BookingApp.Unit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using BookingApp.Classes;
 
 namespace BookingApp
 {
@@ -39,6 +34,7 @@ namespace BookingApp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BookingAppCs"));
             });
+            services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IBookingRepository, BookingRepository>();
             services.AddTransient<ITablePlacesRepository, TablePlacesRepository>();
@@ -51,6 +47,22 @@ namespace BookingApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookingApp", Version = "v1" });
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
 
             var config = new MapperConfiguration(c =>
             {
@@ -72,9 +84,12 @@ namespace BookingApp
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

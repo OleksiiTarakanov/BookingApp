@@ -15,7 +15,7 @@ namespace BookingApp.Services
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBookingRepository _bookingRepository;
-        public BookingService(BookingAppDbContext context, IMapper mapper, IBookingRepository bookingRepository, IUnitOfWork unitOfWork)
+        public BookingService(IMapper mapper, IBookingRepository bookingRepository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _bookingRepository = bookingRepository;
