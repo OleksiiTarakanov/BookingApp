@@ -1,5 +1,7 @@
 ﻿using BookingApp.Classes;
 using BookingApp.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -11,16 +13,18 @@ namespace BookingApp.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly IValidator<UserModel> _validator;
+        public AuthController(IAuthService authService, IValidator<UserModel> validator)
         {
             _authService = authService;
+            _validator = validator;
         }
 
         [HttpPost("/SignIn")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn(string username, string password)
+        public async Task<IActionResult> SignIn([FromBody] Credentials credentials)
         {
-            var result = await _authService.SignIn(username, password);
+            var result = await _authService.SignIn(credentials);
             if (!result.IsSuccess)
             {
                 return Unauthorized(result);
@@ -32,13 +36,20 @@ namespace BookingApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignUp([FromBody] UserModel userModel)
         {
-            var result = await _authService.SignUp(userModel);
-            if (!result.IsSuccess)
+            var validationResult = await _validator.ValidateAsync(userModel);
+            validationResult.AddToModelState(ModelState, null);
+            if (ModelState.IsValid)
             {
-                return BadRequest(result);
+                var result = await _authService.SignUp(userModel);
+                if (!result.IsSuccess)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
             }
 
-            return Ok(result);
+            return UnprocessableEntity(ModelState);
         }
     }
 }

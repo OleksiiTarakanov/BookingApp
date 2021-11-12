@@ -9,13 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using BookingApp.Classes;
 using System.Collections.Generic;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using BookingApp.Validators;
 
 namespace BookingApp
 {
@@ -35,6 +36,7 @@ namespace BookingApp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BookingAppCs"));
             });
+            services.AddTransient<IValidator<UserModel>, UserModelValidator>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IBookingRepository, BookingRepository>();
@@ -113,6 +115,7 @@ namespace BookingApp
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookingApp v1"));
             }
 
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();

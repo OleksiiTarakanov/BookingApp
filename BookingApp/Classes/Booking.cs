@@ -1,9 +1,5 @@
-﻿using BookingApp.DTOs;
-using BookingApp.Enums;
+﻿using BookingApp.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookingApp.Classes
 {

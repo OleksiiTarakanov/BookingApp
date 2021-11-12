@@ -8,8 +8,6 @@ namespace BookingApp.Classes
 {
     public class UserModel
     {
-        public string UserRole { get; private set; }
-
         public string Email { get; set; }
 
         public string FirstName { get; set; }

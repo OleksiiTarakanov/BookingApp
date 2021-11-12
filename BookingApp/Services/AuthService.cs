@@ -1,12 +1,13 @@
 ﻿using BookingApp.Classes;
 using BookingApp.Interfaces;
+using BookingApp.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BookingApp.Services
@@ -19,9 +20,9 @@ namespace BookingApp.Services
             _context = context;
         }
 
-        public async Task<ClaimsIdentity> GetIdentity(string username, string password)
+        public async Task<ClaimsIdentity> GetIdentity(Credentials credentials)
         {
-            var person = await _context.Users.FirstOrDefaultAsync(x => x.Email == username && x.Password == password);
+            var person = await _context.Users.FirstOrDefaultAsync(x => x.Email == credentials.Username && x.Password == credentials.Password);
             if (person != null)
             {
                 var claims = new List<Claim>
@@ -49,29 +50,18 @@ namespace BookingApp.Services
                 UserRole = userModel.FirstName == "adm1n" ? RolesString.Admin : RolesString.User
             };
 
-            var userFromDb = await _context.Users.FirstOrDefaultAsync(i => i.Email == userModel.Email);
-
-            if(userFromDb == null)
-            {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return new Response
-                {
-                    ErrorMessage = "User created successfully",
-                    IsSuccess = true
-                };
-            }
-
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
             return new Response
             {
-                ErrorMessage = "User with this email already exists",
-                IsSuccess = false
+                ErrorMessage = "User created successfully",
+                IsSuccess = true
             };
         }
 
-        public async Task<AuthResponse> SignIn(string username, string password)
+        public async Task<AuthResponse> SignIn(Credentials credentials)
         {
-            var identity = await GetIdentity(username, password);
+            var identity = await GetIdentity(credentials);
             if (identity == null)
             {
                 return new AuthResponse

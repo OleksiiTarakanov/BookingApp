@@ -1,5 +1,6 @@
 ﻿using BookingApp.Classes;
 using BookingApp.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,6 +21,7 @@ namespace BookingApp.Controllers
         }
 
         [HttpGet("tablePlases")]
+        [Authorize]
         public async Task<IActionResult> GetAllTablePlaces()
         {
             var TablePlacesList = await _tableService.GetAllTablePlaces();
@@ -27,6 +29,7 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost("tablePlace")]
+        [Authorize]
         public async Task<IActionResult> AddTablePlace([FromForm] TablePlace place)
         {
             var res = await _tableService.AddTablePlace(place);

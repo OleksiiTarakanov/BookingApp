@@ -10,8 +10,8 @@ namespace BookingApp.Interfaces
 {
     public interface IAuthService
     {
-        public Task<AuthResponse> SignIn(string username, string password);
-        public Task<ClaimsIdentity> GetIdentity(string username, string password);
+        public Task<AuthResponse> SignIn(Credentials credentials);
+        public Task<ClaimsIdentity> GetIdentity(Credentials credentials);
         public Task<Response> SignUp(UserModel userModel);
     }
 }
